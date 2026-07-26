@@ -99,6 +99,20 @@ verifies `out/index.html`, and deploys.
 A failing test blocks deployment. That is the point — do not weaken a test to
 make a deploy pass.
 
+## A trap worth knowing about
+
+`NEXT_PUBLIC_BASE_PATH` is set on the **build step** of `deploy-pages.yml`, not
+on the workflow.
+
+That is deliberate. As a workflow-level `env` it also reached the test step,
+whose Playwright suites build and serve the site themselves and then navigate to
+`/`, `/buy/`, and so on. A base-path build served from the root 404s on every
+one of those, so the entire suite failed and the deploy never ran — the first
+Pages deployment failed for exactly this reason.
+
+Only the artifact that ships needs the subpath. If you move the variables back
+up to workflow level, CI will go red and the cause will not be obvious.
+
 ## Rolling back
 
 1. **Re-run a previous deployment.** Actions → Deploy GitHub Pages → the last

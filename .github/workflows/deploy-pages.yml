@@ -13,13 +13,6 @@ concurrency:
   group: github-pages
   cancel-in-progress: false
 
-env:
-  # Project Pages site: served from https://andrewibrah.github.io/YourlocalRealtor/
-  # Both must change together if the repo is renamed, moved to a user site, or
-  # given a custom domain — see handoff/MAINTENANCE_RUNBOOK.md.
-  NEXT_PUBLIC_SITE_URL: https://andrewibrah.github.io
-  NEXT_PUBLIC_BASE_PATH: /YourlocalRealtor
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -57,6 +50,20 @@ jobs:
           npm run test:e2e
 
       - name: Build static export
+        # Deliberately scoped to this step, NOT the workflow.
+        #
+        # As workflow-level `env` these also applied to the Verify step, whose
+        # Playwright suites build and serve the site themselves and then
+        # navigate to `/`, `/buy/`, and so on. A base-path build served at the
+        # root 404s on every one of those, so the whole suite failed and the
+        # deploy never ran. Only the artifact that ships needs the subpath.
+        #
+        # Both values must change together if the repo is renamed, moved to a
+        # user site, or given a custom domain — see
+        # handoff/MAINTENANCE_RUNBOOK.md.
+        env:
+          NEXT_PUBLIC_SITE_URL: https://andrewibrah.github.io
+          NEXT_PUBLIC_BASE_PATH: /YourlocalRealtor
         run: npm run build
 
       - name: Confirm export
