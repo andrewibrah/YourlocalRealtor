@@ -1,0 +1,44 @@
+{
+  "warning": "Example only. Replace every PINNED_VERSION after source, license, permission, and package review. Do not auto-start unreviewed MCP servers.",
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@PINNED_VERSION"],
+      "purpose": "Current version-specific framework documentation and code samples",
+      "network": true,
+      "secrets": []
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@PINNED_VERSION"],
+      "purpose": "Local browser journey and accessibility inspection",
+      "network": false,
+      "secrets": []
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@PINNED_VERSION",
+        "--isolated",
+        "--no-usage-statistics",
+        "--no-performance-crux"
+      ],
+      "purpose": "Local Chrome performance traces and rendering diagnostics",
+      "network": false,
+      "secrets": []
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "shadcn@PINNED_VERSION", "mcp"],
+      "purpose": "Inspectable component-registry primitives; never a source of visual identity",
+      "network": true,
+      "secrets": []
+    }
+  },
+  "optionalManagedServer": {
+    "name": "Figma MCP",
+    "enableOnlyWhen": "An approved Figma file and least-privilege account access exist",
+    "codeConnectRequired": true
+  }
+}

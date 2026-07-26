@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "videos": [
+    {
+      "id": "budget-500k",
+      "instagramId": "DDXoM1aS-mn",
+      "sourceUrl": "https://www.instagram.com/reel/DDXoM1aS-mn/",
+      "category": "budget",
+      "series": null,
+      "episode": null,
+      "workingTitle": "What You Can Buy With a $500K Budget",
+      "primaryPlacement": ["home", "buy-budget"],
+      "cta": "Build my buying range",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "buy-vs-rent",
+      "instagramId": "DDf1RVvOpQS",
+      "sourceUrl": "https://www.instagram.com/reel/DDf1RVvOpQS/",
+      "category": "buyer-education",
+      "series": null,
+      "episode": null,
+      "workingTitle": "Buying Versus Renting",
+      "primaryPlacement": ["home", "buy-vs-rent"],
+      "cta": "Compare my situation",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "seller-questions",
+      "instagramId": "DDLVnpxuuJH",
+      "sourceUrl": "https://www.instagram.com/reel/DDLVnpxuuJH/",
+      "category": "seller-education",
+      "series": null,
+      "episode": null,
+      "workingTitle": "Questions Sellers Ask",
+      "primaryPlacement": ["home", "sell"],
+      "cta": "Get a seller plan",
+      "verification": "PUBLIC_CAPTION_INDEXED_MEDIA_UNVERIFIED"
+    },
+    {
+      "id": "first-home-01",
+      "instagramId": "DBKJwTvSq9N",
+      "sourceUrl": "https://www.instagram.com/reel/DBKJwTvSq9N/",
+      "category": "first-time-buyer",
+      "series": "first-time-homebuyer",
+      "episode": 1,
+      "workingTitle": "First-Time Homebuyer — Part 1",
+      "primaryPlacement": ["buy-first-home"],
+      "cta": "Continue to part 2",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "first-home-02",
+      "instagramId": "DBPQjg1SV8K",
+      "sourceUrl": "https://www.instagram.com/reel/DBPQjg1SV8K/",
+      "category": "first-time-buyer",
+      "series": "first-time-homebuyer",
+      "episode": 2,
+      "workingTitle": "First-Time Homebuyer — Part 2",
+      "primaryPlacement": ["buy-first-home"],
+      "cta": "Continue to part 3",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "first-home-03",
+      "instagramId": "DBed1EYS4NY",
+      "sourceUrl": "https://www.instagram.com/reel/DBed1EYS4NY/",
+      "category": "first-time-buyer",
+      "series": "first-time-homebuyer",
+      "episode": 3,
+      "workingTitle": "First-Time Homebuyer — Part 3",
+      "primaryPlacement": ["buy-first-home"],
+      "cta": "Continue to part 4",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "first-home-04",
+      "instagramId": "DBwbtSAOtJq",
+      "sourceUrl": "https://www.instagram.com/reel/DBwbtSAOtJq/",
+      "category": "first-time-buyer",
+      "series": "first-time-homebuyer",
+      "episode": 4,
+      "workingTitle": "First-Time Homebuyer — Mortgage Rate Second Opinion",
+      "primaryPlacement": ["buy-first-home"],
+      "cta": "Continue to part 5",
+      "verification": "PUBLIC_CAPTION_INDEXED_MEDIA_UNVERIFIED"
+    },
+    {
+      "id": "first-home-05",
+      "instagramId": "DCQK966oY-E",
+      "sourceUrl": "https://www.instagram.com/reel/DCQK966oY-E/",
+      "category": "first-time-buyer",
+      "series": "first-time-homebuyer",
+      "episode": 5,
+      "workingTitle": "First-Time Homebuyer — Part 5",
+      "primaryPlacement": ["buy-first-home"],
+      "cta": "Plan my move",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "property-tour-01",
+      "instagramId": "C__YRbnS0O0",
+      "sourceUrl": "https://www.instagram.com/reel/C__YRbnS0O0/",
+      "category": "property-tour",
+      "series": "property-tours",
+      "episode": null,
+      "workingTitle": "Property Tour 01",
+      "primaryPlacement": ["home-hero-candidate", "properties"],
+      "cta": "Ask about this property",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "property-tour-02",
+      "instagramId": "DYPukf6B_rU",
+      "sourceUrl": "https://www.instagram.com/reel/DYPukf6B_rU/",
+      "category": "property-tour",
+      "series": "property-tours",
+      "episode": null,
+      "workingTitle": "Property Tour 02",
+      "primaryPlacement": ["home-tours", "properties"],
+      "cta": "Ask about this property",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "property-tour-03",
+      "instagramId": "DYPvQxZBiiC",
+      "sourceUrl": "https://www.instagram.com/reel/DYPvQxZBiiC/",
+      "category": "property-tour",
+      "series": "property-tours",
+      "episode": null,
+      "workingTitle": "Property Tour 03",
+      "primaryPlacement": ["home-tours", "properties"],
+      "cta": "Ask about this property",
+      "verification": "VERIFY_FROM_MASTER"
+    },
+    {
+      "id": "property-tour-04",
+      "instagramId": "DZV7SoHhOTt",
+      "sourceUrl": "https://www.instagram.com/reel/DZV7SoHhOTt/",
+      "category": "property-tour",
+      "series": "property-tours",
+      "episode": null,
+      "workingTitle": "1 McClean Avenue",
+      "primaryPlacement": ["home-tours", "properties"],
+      "cta": "Ask about this property",
+      "verification": "PUBLIC_TITLE_INDEXED_MEDIA_UNVERIFIED"
+    }
+  ]
+}
+

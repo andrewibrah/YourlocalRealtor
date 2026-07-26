@@ -1,0 +1,83 @@
+{
+  "statusValues": ["not_started", "in_progress", "passed", "blocked"],
+  "waiverPolicy": "Written, time-limited, accepted by both owners; no silent waiver of legal or accessibility blockers.",
+  "gates": [
+    {
+      "id": "github-pages-static-architecture",
+      "owner": "code",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "content-verification",
+      "owner": "business",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "media-and-music-rights",
+      "owner": "business",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "brokerage-advertising-fair-housing",
+      "owner": "business",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "privacy-retention-consent",
+      "owner": "shared",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "wcag-2-2-aa",
+      "owner": "code",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "security-asvs-sast-secrets-dependencies",
+      "owner": "code",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "performance-budget",
+      "owner": "code",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "contact-actions-and-zero-data-collection",
+      "owner": "shared",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "premium-ui-review",
+      "owner": "shared",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    },
+    {
+      "id": "handoff-credentials-backup-rollback",
+      "owner": "shared",
+      "status": "not_started",
+      "blocking": true,
+      "evidence": null
+    }
+  ]
+}

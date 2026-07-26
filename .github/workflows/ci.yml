@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Test
+        run: |
+          npm run test:unit
+          npm run test:a11y
+          npm run test:e2e
+
+      - name: Build static export
+        run: npm run build
+
+      - name: Confirm export
+        run: test -f out/index.html
+
+      - name: Confirm no runtime backend crept in
+        # A static export must never gain an API route, Server Action, or
+        # middleware. These are architecture violations, not style issues.
+        run: |
+          set -e
+          ! find src/app -name "route.ts" -o -name "route.js" | grep -q .             || { echo "::error::Route handler found — not permitted in a static export"; exit 1; }
+          ! find src -name "proxy.ts" -o -name "middleware.ts" | grep -q .             || { echo "::error::Middleware found — not permitted in a static export"; exit 1; }
+          ! grep -rq '"use server"' src             || { echo "::error::Server Action found — not permitted in a static export"; exit 1; }
+          ! grep -rilq "vercel" --include="*.json" --include="*.ts" --include="*.js" --include="*.yml"               --exclude-dir=node_modules --exclude=package-lock.json .             || { echo "::error::Vercel reference found — GitHub Pages is the only permitted host"; exit 1; }
+          echo "Static-export architecture intact."
+
+      - name: Dependency audit
+        run: npm run audit:dependencies
+
+      - name: Licence check
+        run: npm run audit:licenses
+
+      - name: Generate SBOM
+        run: npm run sbom
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+          retention-days: 30

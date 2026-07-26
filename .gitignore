@@ -1,0 +1,73 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (never commit real values; .env.example is intentionally tracked)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# lighthouse / test artifacts
+.lighthouseci
+playwright-report/
+test-results/
+coverage/
+
+# credentials, browser profiles, generated private artifacts
+*.pem
+*.key
+*credentials*.json
+.chrome-profile/
+# Video source masters are deliberately NOT tracked.
+#
+# `sharif-site-definition/docs/08-premium-motion-and-media.md`: "Keep source
+# masters outside Git." They are ~62 MB and would bloat history permanently for
+# files that never ship. Only the derivatives in public/media/ deploy, and
+# generated/media-manifest.json records a SHA-256 of every master so a
+# derivative can still be traced to its source.
+#
+# THESE ARE THE ONLY COPIES SUPPLIED. Back them up somewhere else — this
+# exclusion means git is not that backup. See handoff/MAINTENANCE_RUNBOOK.md.
+sharif-site-definition/assets/videos/**/*.mp4
+sharif-site-definition/assets/videos/**/*.mov
+*.mov
+*.mkv
+
+# Generated SBOM is a release artifact, not source.
+sbom.json
+
+# Scratch audio extracted for transcription.
+/tmp-asr/

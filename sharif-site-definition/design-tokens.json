@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "color": {
+    "ink": "#0B0D10",
+    "paper": "#F7F7F2",
+    "white": "#FFFFFF",
+    "signalYellow": "#FFC928",
+    "actionBlue": "#155EEF",
+    "blueDark": "#0B2B63",
+    "gray100": "#ECEDE8",
+    "gray300": "#C9CBC5",
+    "gray600": "#626660",
+    "success": "#18794E",
+    "warning": "#A15C00",
+    "danger": "#B42318"
+  },
+  "font": {
+    "family": {
+      "display": "Sora, Arial, sans-serif",
+      "body": "Inter, Arial, sans-serif",
+      "data": "\"IBM Plex Mono\", monospace"
+    },
+    "weight": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700,
+      "extraBold": 800
+    },
+    "size": {
+      "caption": "0.8125rem",
+      "body": "1rem",
+      "bodyLarge": "1.25rem",
+      "headingMedium": "2rem",
+      "headingLarge": "3rem",
+      "headingXLarge": "4rem",
+      "displayLarge": "5rem",
+      "displayXLarge": "6.5rem"
+    }
+  },
+  "space": {
+    "0": "0",
+    "1": "0.25rem",
+    "2": "0.5rem",
+    "3": "0.75rem",
+    "4": "1rem",
+    "5": "1.25rem",
+    "6": "1.5rem",
+    "8": "2rem",
+    "10": "2.5rem",
+    "12": "3rem",
+    "16": "4rem",
+    "18": "4.5rem",
+    "24": "6rem",
+    "28": "7rem",
+    "32": "8rem",
+    "40": "10rem"
+  },
+  "radius": {
+    "none": "0",
+    "small": "0.25rem",
+    "medium": "0.5rem",
+    "large": "0.75rem",
+    "xLarge": "1rem",
+    "full": "9999px"
+  },
+  "motion": {
+    "duration": {
+      "instant": "80ms",
+      "fast": "160ms",
+      "standard": "240ms",
+      "feature": "420ms",
+      "cinematic": "700ms"
+    },
+    "easing": {
+      "enter": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "exit": "cubic-bezier(0.7, 0, 0.84, 0)",
+      "emphasis": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+    }
+  },
+  "layout": {
+    "maxWidth": "90rem",
+    "readingWidth": "45rem",
+    "gutterMobile": "1.25rem",
+    "gutterTablet": "2rem",
+    "gutterDesktop": "3rem",
+    "touchTarget": "2.75rem"
+  },
+  "breakpoint": {
+    "sm": "40rem",
+    "md": "48rem",
+    "lg": "64rem",
+    "xl": "80rem",
+    "2xl": "96rem"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/sharif-media-manifest.json",
+  "title": "Sharif website media manifest",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "id",
+      "kind",
+      "originalPath",
+      "sha256",
+      "rightsStatus",
+      "transcriptStatus",
+      "verification"
+    ],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$" },
+      "kind": {
+        "enum": ["talking-head", "tour", "b-roll", "testimonial", "music"]
+      },
+      "originalPath": { "type": "string", "minLength": 1 },
+      "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+      "orientation": { "enum": ["portrait", "landscape", "square", "audio"] },
+      "durationSeconds": { "type": "number", "exclusiveMinimum": 0 },
+      "subject": { "type": "string" },
+      "propertyReference": { "type": "string" },
+      "spokenClaims": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": []
+      },
+      "rightsStatus": {
+        "enum": ["unknown", "restricted", "cleared", "expired", "rejected"]
+      },
+      "rightsEvidencePrivatePath": { "type": "string" },
+      "transcriptStatus": {
+        "enum": ["not-needed", "missing", "draft", "verified"]
+      },
+      "captionPath": { "type": "string" },
+      "approvedPlacements": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": []
+      },
+      "verification": {
+        "enum": ["VERIFY_FROM_MASTER", "verified", "rejected"]
+      },
+      "notes": { "type": "string" }
+    }
+  }
+}

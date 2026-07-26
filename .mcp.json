@@ -1,0 +1,38 @@
+{
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@3.2.5"],
+      "purpose": "Current version-specific framework documentation and code samples",
+      "network": true,
+      "secrets": []
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.78"],
+      "purpose": "Local browser journey and accessibility inspection",
+      "network": false,
+      "secrets": []
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@1.6.0",
+        "--isolated",
+        "--no-usage-statistics",
+        "--no-performance-crux"
+      ],
+      "purpose": "Local Chrome performance traces and rendering diagnostics",
+      "network": false,
+      "secrets": []
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "shadcn@4.15.0", "mcp"],
+      "purpose": "Inspectable component-registry primitives; never a source of visual identity",
+      "network": true,
+      "secrets": []
+    }
+  }
+}

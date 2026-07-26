@@ -1,0 +1,285 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens.
+
+   Every value below is a direct transcription of
+   `sharif-site-definition/design-tokens.json` and `docs/04-design-system.md`.
+   Do not introduce a colour, size, radius, duration, or easing that is not
+   defined here — that is how visual drift starts.
+   --------------------------------------------------------------------------- */
+
+@theme {
+  /* Palette -------------------------------------------------------------- */
+  --color-ink: #0b0d10;
+  --color-paper: #f7f7f2;
+  --color-white: #ffffff;
+  --color-signal: #ffc928;
+  --color-action: #155eef;
+  --color-action-dark: #0b2b63;
+  --color-gray-100: #ecede8;
+  --color-gray-300: #c9cbc5;
+  --color-gray-600: #626660;
+  --color-success: #18794e;
+  --color-warning: #a15c00;
+  --color-danger: #b42318;
+
+  /* On-ink variants.
+     `gray-600` (#626660) only reaches 3.4:1 on ink, so dark sections use a
+     lighter secondary text colour. #A8ABA4 measures 8.1:1 on #0B0D10. */
+  --color-ink-muted: #a8aba4;
+  --color-ink-rule: #2a2e33;
+
+  /*
+   * Accessible text variants.
+   *
+   * The palette in `docs/04-design-system.md` is the visual baseline, but
+   * several of its colours were specified as markers and surfaces rather than
+   * as text. Measured against the surfaces this site actually uses, three of
+   * them fall short of the 4.5:1 the same document requires:
+   *
+   *   action  #155EEF  3.1:1 on paper
+   *   warning #A15C00  4.41:1 on gray-100
+   *   success #18794E  4.39:1 on a 10% success tint
+   *
+   * Rather than change the brand tokens — they remain correct for borders,
+   * fills, and markers — each gains a darker sibling used only for text. The
+   * hue is preserved; only the lightness moves. Accessibility outranks brand
+   * fidelity in the priority order set by the requirements pack.
+   */
+  --color-action-ink: #0e45b0; /* 7.0:1 on paper */
+  --color-action-sky: #8fb6ff; /* 8.4:1 on ink */
+  --color-warning-ink: #8a4e00; /* 5.6:1 on gray-100 */
+  --color-success-ink: #10603d; /* 6.0:1 on a success tint */
+
+  /* Typography ----------------------------------------------------------- */
+  --font-display: var(--font-sora), "Sora", system-ui, sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-data: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Fluid scale. Mobile value → desktop value, per docs/04 §Scale. */
+  --text-display-xl: clamp(3.5rem, 1.35rem + 9.2vw, 6.5rem);
+  --text-display-xl--line-height: 0.94;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-xl--font-weight: 800;
+
+  --text-display-lg: clamp(3rem, 1.57rem + 6.1vw, 5rem);
+  --text-display-lg--line-height: 0.96;
+  --text-display-lg--letter-spacing: -0.03em;
+  --text-display-lg--font-weight: 800;
+
+  --text-heading-xl: clamp(2.5rem, 1.43rem + 4.6vw, 4rem);
+  --text-heading-xl--line-height: 1.02;
+  --text-heading-xl--letter-spacing: -0.025em;
+  --text-heading-xl--font-weight: 700;
+
+  --text-heading-lg: clamp(2rem, 1.29rem + 3.05vw, 3rem);
+  --text-heading-lg--line-height: 1.08;
+  --text-heading-lg--letter-spacing: -0.02em;
+  --text-heading-lg--font-weight: 700;
+
+  --text-heading-md: clamp(1.5rem, 1.14rem + 1.52vw, 2rem);
+  --text-heading-md--line-height: 1.18;
+  --text-heading-md--letter-spacing: -0.015em;
+  --text-heading-md--font-weight: 700;
+
+  --text-body-lg: clamp(1.125rem, 1.08rem + 0.19vw, 1.25rem);
+  --text-body-lg--line-height: 1.6;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+
+  /* Spacing — 4px base. --------------------------------------------------- */
+  --spacing: 0.25rem;
+
+  /* Shape ----------------------------------------------------------------- */
+  --radius-button: 0.5rem;
+  --radius-card: 0.75rem;
+  --radius-media: 1rem;
+  --radius-pill: 9999px;
+
+  /* Motion ---------------------------------------------------------------- */
+  --duration-instant: 80ms;
+  --duration-fast: 160ms;
+  --duration-standard: 240ms;
+  --duration-feature: 420ms;
+  --duration-cinematic: 700ms;
+
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-emphasis: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Layout ---------------------------------------------------------------- */
+  --container-page: 90rem;
+  --container-reading: 45rem;
+
+  /* Breakpoints — docs/04 grid definition. */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+@layer base {
+  :root {
+    /*
+     * Height of the fixed mobile action bar, so page content can reserve room
+     * for it. Zeroed at `lg`, where the bar is not rendered.
+     *
+     * The bar measures ~61px (8px padding + 44px target + 8px padding + 1px
+     * border). The reserved space is set generously above that: an end-to-end
+     * run caught the closing call to action sitting underneath the bar at the
+     * very bottom of the page, where there is no further scroll available to
+     * move it clear. A fixed bar that covers the primary conversion action is
+     * exactly the failure `docs/02` warns about.
+     */
+    --action-bar-height: 5.5rem;
+    color-scheme: light;
+  }
+
+  @media (width >= 64rem) {
+    :root {
+      --action-bar-height: 0rem;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Section anchors must clear the sticky header. */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Focus: 3px action-blue plus 2px offset (docs/04 §Focus and accessibility).
+     On ink surfaces the ring switches to signal yellow so it stays visible. */
+  :focus-visible {
+    outline: 3px solid var(--color-action);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .on-ink :focus-visible,
+  .on-ink:focus-visible {
+    outline-color: var(--color-signal);
+  }
+
+  ::selection {
+    background-color: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  /* Never let a media element blow out its container. */
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion.
+
+   docs/04 §Reduced motion: "Remove transforms, masks, count-ups, and
+   shared-layout animation. Preserve state change through opacity and instant
+   layout. Never suppress content."
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities.
+   Kept small and named for the thing they do, not the thing they look like.
+   --------------------------------------------------------------------------- */
+
+@utility page-gutter {
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+
+  /*
+   * At `xl` the index rail appears, fixed to the right edge. It needs a lane of
+   * its own: without this the rail sat on top of the hero media and the buyer
+   * series. The asymmetry is deliberate — the rail is a persistent part of the
+   * layout at this size, not an overlay, so the content column yields to it.
+   */
+  @media (width >= 80rem) {
+    padding-inline: 3rem 7rem;
+  }
+}
+
+/* Numerals in data type are tabular so prices and indices align in columns. */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* The 9:16 unit. The source material is vertical; this is the structural
+   module of the whole layout and is never centre-cropped. */
+@utility frame-vertical {
+  aspect-ratio: 9 / 16;
+}
+
+/* Scrim used behind text that sits over property media. Keeps white text
+   above 4.5:1 on a mid-tone frame. */
+@utility media-scrim {
+  background-image: linear-gradient(
+    to top,
+    rgb(11 13 16 / 0.92) 0%,
+    rgb(11 13 16 / 0.72) 38%,
+    rgb(11 13 16 / 0.15) 72%,
+    rgb(11 13 16 / 0) 100%
+  );
+}
+
+/*
+ * Scroll reveal was removed.
+ *
+ * The earlier implementation armed below-the-fold elements to opacity 0 and
+ * released them on intersection. It worked while scrolling and failed
+ * everywhere else: full-page rendering, print, and any context where the
+ * observer does not fire left whole sections — the proof stories among them —
+ * permanently invisible. A visual nicety that can hide the most important
+ * content on the site is not a trade worth making, and the direction does not
+ * depend on it: the signature motion is the index rail, and the typography
+ * carries the page on its own.
+ *
+ * Deliberately not replaced with a timeout-based failsafe. That would have
+ * meant either revealing everything early (no effect) or keeping a window in
+ * which content is invisible (same bug, shorter).
+ */

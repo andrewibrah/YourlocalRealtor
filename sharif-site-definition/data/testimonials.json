@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "proofStories": [
+    {
+      "id": "brehaut-seller-rescue",
+      "headline": "Hands-on support after two failed agent experiences",
+      "transactionType": "seller",
+      "property": {
+        "address": "327 Brehaut Ave",
+        "city": "Staten Island",
+        "state": "NY",
+        "postalCode": "10307"
+      },
+      "outcome": {
+        "label": "Sold for",
+        "amount": 960000,
+        "currency": "USD"
+      },
+      "capabilities": [
+        "patience",
+        "local knowledge",
+        "process support",
+        "negotiation"
+      ],
+      "excerpt": "He sold my home quickly and stayed on my side when the process became difficult. He even came over to help search for closing documents from twenty years earlier.",
+      "sourceAsset": "assets/reviews/327-brehaut-ave-960k.jpeg",
+      "verification": "TRANSCRIBED_FROM_USER_SUPPLIED_SCREENSHOT_REQUIRES_APPROVAL"
+    },
+    {
+      "id": "meisner-buyer-win",
+      "headline": "Competitive-bid support and financing guidance",
+      "transactionType": "buyer",
+      "property": {
+        "address": "181 Meisner Ave",
+        "city": "Staten Island",
+        "state": "NY",
+        "postalCode": "10306"
+      },
+      "outcome": {
+        "label": "Sold for",
+        "amount": 1299999,
+        "currency": "USD"
+      },
+      "capabilities": [
+        "guidance",
+        "bidding strategy",
+        "mortgage support",
+        "client care"
+      ],
+      "excerpt": "When I nearly lost the property in a bidding war, Sharif fought to keep the deal alive and helped me secure strong mortgage terms.",
+      "sourceAsset": "assets/reviews/181-meisner-ave-1299999.jpeg",
+      "verification": "TRANSCRIBED_FROM_USER_SUPPLIED_SCREENSHOT_REQUIRES_APPROVAL"
+    },
+    {
+      "id": "brooklyn-sell-and-buy",
+      "headline": "Sold within the first week while coordinating the next purchase",
+      "transactionType": "sell-and-buy",
+      "property": {
+        "address": "2031 60th St",
+        "city": "Brooklyn",
+        "state": "NY",
+        "postalCode": "11204"
+      },
+      "outcome": {
+        "label": "Sold for",
+        "amount": 1960000,
+        "currency": "USD",
+        "acceptedOfferPercentOfList": 98,
+        "acceptedOfferTiming": "within first week"
+      },
+      "capabilities": [
+        "seller strategy",
+        "network",
+        "communication",
+        "transaction coordination"
+      ],
+      "excerpt": "Sharif secured an accepted offer at 98% of list price within the first week and helped coordinate the next home before the current property was listed.",
+      "sourceAsset": "assets/reviews/2031-60th-st-1960000.jpeg",
+      "verification": "TRANSCRIBED_FROM_USER_SUPPLIED_SCREENSHOT_REQUIRES_APPROVAL"
+    }
+  ]
+}
+

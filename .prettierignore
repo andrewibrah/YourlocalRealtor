@@ -1,0 +1,13 @@
+# Requirements source — do not reformat.
+sharif-site-definition/
+
+# Build output and dependencies.
+node_modules/
+.next/
+out/
+package-lock.json
+
+# Generated artifacts.
+sbom.json
+playwright-report/
+test-results/
