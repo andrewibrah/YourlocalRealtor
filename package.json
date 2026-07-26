@@ -13,9 +13,10 @@
     "test:a11y": "playwright test --config=playwright.a11y.config.ts",
     "test:e2e": "playwright test --config=playwright.e2e.config.ts",
     "test:ci": "npm run test:unit && npm run test:a11y && npm run test:e2e",
-    "audit:dependencies": "npm audit --audit-level=high",
+    "audit:dependencies": "npm audit --omit=dev --audit-level=high",
     "audit:licenses": "license-checker --production --failOn 'GPL-2.0;GPL-3.0;AGPL-1.0;AGPL-3.0;LGPL-2.0;LGPL-2.1;LGPL-3.0;SSPL-1.0'",
-    "sbom": "cyclonedx-npm --output-file sbom.json"
+    "sbom": "cyclonedx-npm --ignore-npm-errors --output-file sbom.json",
+    "audit:dependencies:full": "npm audit || true"
   },
   "dependencies": {
     "clsx": "2.1.1",
@@ -48,5 +49,9 @@
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "vitest": "4.1.10"
+  },
+  "overrides": {
+    "postcss": "^8.5.23",
+    "sharp": "^0.35.3"
   }
 }

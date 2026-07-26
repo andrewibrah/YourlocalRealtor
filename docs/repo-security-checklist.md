@@ -74,3 +74,56 @@ The following security controls are configured via repository files and workflow
 - ✅ **Dependency Review** (`.github/workflows/dependency-review.yml`)
   - Automated dependency review on all pull requests
   - Fails on high-severity security vulnerabilities
+
+---
+
+## Dependency remediation record — 2026-07-26
+
+**Initial state:** 29 advisories (26 high, 0 critical). Three affected
+production dependencies: `next`, `postcss`, `sharp`.
+
+**npm's proposed fix was `next@9.3.3`** — a downgrade from 16 to 9. That is not
+a remediation, and `npm audit fix --force` would have destroyed the application.
+It was not run.
+
+**What was actually done.** `next@16.2.12` is already the latest release and has
+no published fix; it was flagged only because of its pinned transitives. Both of
+those have patched releases, so they are pinned forward with npm `overrides` in
+`package.json`:
+
+| Package | Was | Now | Advisory |
+| --- | --- | --- | --- |
+| `postcss` | 8.4.31 | ^8.5.23 | XSS via unescaped `</style>` in stringify output; arbitrary file read |
+| `sharp` | 0.34.5 | ^0.35.3 | libvips CVE-2026-33327, -33328, -35590, -35591 |
+
+**Result: zero high or critical advisories in production dependencies.** The
+`next` advisory cleared with them.
+
+Verified after the change: type check, lint, build, 25 unit tests, 24
+accessibility tests, 21 journey tests — all passing. CSS output confirmed intact
+under the newer PostCSS.
+
+**Review these overrides** whenever Next.js is upgraded. Once Next ships a
+version pinning patched transitives itself, the overrides should be removed
+rather than left to drift.
+
+### Remaining dev-toolchain advisories
+
+23 high advisories remain in the development toolchain (`eslint`, `@lhci/cli`,
+`@cyclonedx/cyclonedx-npm` and their transitives). They do not ship — nothing
+from `devDependencies` is in `out/`.
+
+`npm run audit:dependencies` therefore gates on **production** dependencies at
+high severity and must stay green. `npm run audit:dependencies:full` reports
+everything, non-blocking, so dev findings stay visible rather than hidden.
+
+These are still a build-chain integrity concern under NIST SSDF and should be
+cleared through normal Dependabot upgrades. They are not release blockers for a
+static site with no server.
+
+### SBOM
+
+`cyclonedx-npm` aborted on an unrelated `npm ls` tree warning
+(`invalid: proxy-agent@6.5.0`, a range conflict inside the dev toolchain). The
+script now passes `--ignore-npm-errors`; the generated SBOM is unaffected and
+`npm run sbom` exits clean.

@@ -30,6 +30,12 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Install Playwright browsers
+        # The accessibility and journey suites drive real browsers. Without this
+        # they fail on a clean runner with "Executable doesn't exist".
+        # Chromium and WebKit only — the suites do not use Firefox.
+        run: npx playwright install --with-deps chromium webkit
+
       - name: Lint
         run: npm run lint
 
