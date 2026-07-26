@@ -46,6 +46,20 @@ jobs:
           npm run test:a11y
           npm run test:e2e
 
+      - name: Upload test report on failure
+        # Job logs need admin rights to read through the API, which made a
+        # failing suite effectively undiagnosable from outside the UI. The
+        # report artifact is readable by anyone who can see the run.
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.job }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Build static export
         # Deliberately scoped to this step, NOT the workflow.
         #
