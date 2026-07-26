@@ -1,5 +1,7 @@
 # Sharif Abdelkader — New York Real Estate
 
+**Live:** https://andrewibrah.github.io/YourlocalRealtor/
+
 Static Next.js site for a Staten Island and Brooklyn real-estate agent.
 
 Product requirements, brand strategy, design tokens, and content schemas live in
@@ -74,7 +76,7 @@ rather than shipping.
 
 ## Status
 
-Complete as a build. **Not cleared for use as New York real-estate advertising**
+Deployed and serving. **Complete as a build.** **Not cleared for use as New York real-estate advertising**
 until the blocking items in
 [`docs/content-verification.md`](./docs/content-verification.md) §1 are resolved
 — principally the licensed title, testimonial permission, and media/music

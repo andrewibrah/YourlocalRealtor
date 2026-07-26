@@ -6,10 +6,13 @@ Everything routine, with the exact file to change.
 
 ## Go-live checklist
 
-1. **Create the GitHub repository** and push. There is no remote configured yet.
-2. **Settings → Pages → Source: GitHub Actions.**
-3. **Settings → Environments →** create `github-pages`, restrict deployments to
-   `main`.
+Deployed to https://andrewibrah.github.io/YourlocalRealtor/ on 2026-07-26.
+
+1. ~~Create the GitHub repository and push.~~ Done — `andrewibrah/YourlocalRealtor`.
+2. ~~Settings → Pages → Source: GitHub Actions.~~ Done.
+3. **Settings → Environments →** create `github-pages` and restrict deployments
+   to `main`. *Still outstanding — deployment currently has no branch
+   protection.*
 4. **Set `NEXT_PUBLIC_SITE_URL`** to the real URL (repository variable). Without
    it, canonicals and the sitemap point at `example.invalid`.
 5. If deploying to `user.github.io/<repo>` rather than a custom domain, **set
@@ -120,9 +123,8 @@ up to workflow level, CI will go red and the cause will not be obvious.
 2. **Revert and push.** `git revert <sha> && git push`. The workflow redeploys
    automatically.
 
-**The rollback drill has not been performed** — there is no repository yet.
-Do it once before launch and confirm the production URL serves the previous
-version.
+**The rollback drill has not been performed.** Now that the site is live, do it
+once and confirm the production URL serves the previous version.
 
 ## Backups
 
