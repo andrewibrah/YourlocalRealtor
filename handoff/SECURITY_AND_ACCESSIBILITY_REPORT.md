@@ -118,11 +118,15 @@ text-only siblings were added, preserving hue.
 - Captions and a full transcript ship with every playable film — enforced by the
   content schema, which cannot produce a media package for a film with audio and
   no caption file.
-- No video autoplays with sound. The one autoplaying clip has **no audio track
-  at all**.
+- **No video autoplays with sound.** Playback only ever starts from a click,
+  and it starts *with* sound — pressing play is the visitor's consent. The one
+  clip that does start by itself, the home hero loop, has **no audio track at
+  all**, so there is nothing it could play.
+- If a browser refuses audio, playback falls back to muted rather than failing,
+  and the mute control reflects that honestly.
 - Only one video plays at a time.
 - Custom controls are keyboard operable with visible accessible names; captions
-  default to on.
+  default to on whether or not sound is playing.
 - A descriptive fallback renders when media fails, with the transcript still on
   the page.
 

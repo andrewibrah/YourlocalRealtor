@@ -47,9 +47,10 @@ export default function AccessibilityPage() {
           {
             heading: "Video and media",
             body: [
-              "No video on this site autoplays with sound, and only one video can play at a time.",
-              "Every speaking video will ship with captions on by default and a full written transcript on the same page. That is enforced by the content schema: a video record cannot be published without a caption file and a transcript.",
-              "No film has been released on this site yet, so no captioned media has been tested in production. That testing is outstanding and is listed below.",
+              "No video on this site starts on its own with sound. Video plays only when you press play, and it plays with sound when you do — pressing play is your decision. The short looping clip on the home page starts by itself but has no sound track at all.",
+              "Only one video can play at a time. Starting a second one stops the first.",
+              "Every speaking video has captions on by default — whether or not the sound is on — and a full written transcript on the same page. That is enforced by the content schema: a video record cannot be published without a caption file and a transcript.",
+              "Captions and transcripts were generated from the audio of the original files and have not yet been checked word by word against the films. That review is outstanding.",
               "Where a video fails to load, a written description and the transcript remain available.",
             ],
           },

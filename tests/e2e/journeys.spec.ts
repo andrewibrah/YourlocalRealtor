@@ -188,6 +188,52 @@ test("video library filters narrow the list without hiding it by default", async
   expect(await items.count()).toBe(5);
 });
 
+test("pressing play starts the video with sound", async ({ page }) => {
+  await page.goto("/videos/budget-500k/");
+  await hydrated(page);
+
+  const before = await page.evaluate(() => {
+    const v = document.querySelector("video")!;
+    return { muted: v.muted, paused: v.paused };
+  });
+  expect(before.paused).toBe(true);
+
+  await page.getByRole("button", { name: /^Play/ }).first().click();
+  await page.waitForTimeout(1500);
+
+  const after = await page.evaluate(() => {
+    const v = document.querySelector("video")!;
+    return {
+      muted: v.muted,
+      volume: v.volume,
+      playing: !v.paused,
+      cues: v.textTracks[0]?.cues?.length ?? 0,
+    };
+  });
+
+  // Pressing play is the visitor's consent, so audio is on. This is not
+  // autoplay — nothing on this site starts sound by itself.
+  expect(after.playing).toBe(true);
+  expect(after.muted).toBe(false);
+  expect(after.volume).toBeGreaterThan(0);
+  // Captions stay on regardless of sound.
+  expect(after.cues).toBeGreaterThan(0);
+});
+
+test("the hero loop never plays sound", async ({ page }) => {
+  await page.goto("/");
+  await hydrated(page);
+  await page.waitForTimeout(1200);
+
+  const hero = await page.evaluate(() => {
+    const v = document.querySelector("video");
+    return v ? { muted: v.muted } : null;
+  });
+
+  // Null is valid: under reduced motion the element is never mounted at all.
+  if (hero) expect(hero.muted).toBe(true);
+});
+
 test("unverified claims always carry a provisional marker", async ({ page }) => {
   await page.goto("/results/brooklyn-sell-and-buy/");
   await expect(page.getByText(/pending approval/i).first()).toBeVisible();

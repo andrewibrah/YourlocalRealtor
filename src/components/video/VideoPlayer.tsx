@@ -35,7 +35,12 @@ function formatTime(seconds: number): string {
  * Behaviour required by `docs/03` and `docs/09`:
  *
  *  - click to play; no autoplay with sound, ever;
- *  - captions on by default when audio starts muted;
+ *  - sound ON when the visitor presses play. Pressing play is the consent, so
+ *    this is not autoplay — `docs/03` bars *autoplaying* sound, and nothing
+ *    here starts on its own. The one clip that does start by itself, the home
+ *    hero loop, has no audio track at all;
+ *  - captions on by default regardless of sound, which is stricter than the
+ *    spec's "preserve captions when audio begins muted" and costs nothing;
  *  - pause when scrolled out of view or when the document is hidden;
  *  - only one video playing in the document at a time;
  *  - every control keyboard operable with a visible accessible name;
@@ -64,12 +69,18 @@ export function VideoPlayer({
 
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
+  /*
+   * Starts unmuted. Safe because playback is only ever started from a click, so
+   * the browser's autoplay policy is satisfied by a real user gesture. If a
+   * browser refuses anyway — data saver, low power mode, a stricter policy —
+   * `togglePlay` retries muted rather than failing to play at all.
+   */
+  const [muted, setMuted] = useState(false);
   const [captionsOn, setCaptionsOn] = useState(true);
   const [progress, setProgress] = useState(0);
   const [failed, setFailed] = useState(false);
 
-  /* Captions default to on, mirroring the muted default. */
+  /* Captions default to on, whether or not sound is playing. */
   useEffect(() => {
     const element = videoRef.current;
     if (!element) return;
@@ -112,15 +123,35 @@ export function VideoPlayer({
     const element = videoRef.current;
     if (!element) return;
 
-    if (element.paused) {
-      claimPlayback(element);
-      setStarted(true);
-      const result: unknown = element.play();
-      if (result && typeof (result as Promise<void>).catch === "function") {
-        void (result as Promise<void>).catch(() => setFailed(true));
-      }
-    } else {
+    if (!element.paused) {
       element.pause();
+      return;
+    }
+
+    claimPlayback(element);
+    setStarted(true);
+
+    // The visitor asked for this, so give them the audio.
+    element.muted = false;
+    setMuted(false);
+
+    const result: unknown = element.play();
+    if (result && typeof (result as Promise<void>).then === "function") {
+      void (result as Promise<void>).catch(() => {
+        /*
+         * Sound was refused. Rather than leave the visitor with a dead play
+         * button, fall back to muted playback — which browsers do permit — and
+         * reflect that honestly in the mute control so they can turn sound on
+         * themselves.
+         */
+        element.muted = true;
+        setMuted(true);
+
+        const retry: unknown = element.play();
+        if (retry && typeof (retry as Promise<void>).catch === "function") {
+          void (retry as Promise<void>).catch(() => setFailed(true));
+        }
+      });
     }
   }, []);
 
