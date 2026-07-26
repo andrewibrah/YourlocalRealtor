@@ -16,7 +16,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Playwright browser download plus three suites plus the build; 15 minutes
+    # was tight on a cold runner.
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -26,11 +28,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
 
       - name: Install locked dependencies
         run: npm ci
@@ -78,6 +75,15 @@ jobs:
             || { echo "::error::Built assets are not prefixed with the base path"; exit 1; }
           echo "Base path applied."
 
+      # `actions/configure-pages` is deliberately not used.
+      #
+      # Two reasons. It calls the Pages API and so needs a `pages` permission,
+      # which this build job does not have and should not have — only the deploy
+      # job carries deploy scope. And with `static_site_generator: next` it
+      # injects its own basePath/assetPrefix handling, which would fight the
+      # explicit basePath this project sets in next.config.ts. Neither
+      # `upload-pages-artifact` nor `deploy-pages` requires it once Pages is
+      # enabled with GitHub Actions as the source.
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
