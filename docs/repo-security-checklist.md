@@ -127,3 +127,30 @@ static site with no server.
 (`invalid: proxy-agent@6.5.0`, a range conflict inside the dev toolchain). The
 script now passes `--ignore-npm-errors`; the generated SBOM is unaffected and
 `npm run sbom` exits clean.
+
+---
+
+## Removed: GitHub's starter Pages workflow (`nextjs.yml`)
+
+Enabling Pages with GitHub Actions as the source offers to commit GitHub's
+sample Next.js workflow. It was committed on 2026-07-26 and has been removed,
+because running it alongside `deploy-pages.yml` was actively harmful:
+
+1. **Two workflows deploying to Pages on every push.** They used different
+   concurrency groups (`pages` and `github-pages`), so they did not queue behind
+   each other — they raced for the same environment.
+2. **No base path.** The sample sets no environment variables, so it built
+   without `NEXT_PUBLIC_BASE_PATH`. Deployed to a project site served from
+   `/YourlocalRealtor/`, every asset, route, and media file would have 404'd.
+3. **No quality gates.** No lint, type check, tests, or export verification —
+   it would deploy a broken build without complaint.
+4. **Broader permissions.** It grants `pages: write` and `id-token: write` at
+   the workflow level, so the build job holds deploy permissions it never needs.
+   `deploy-pages.yml` scopes those to the deploy job alone.
+
+`deploy-pages.yml` does everything the sample does and adds the base path, the
+full test suite, static-export verification, an asset-prefix check, a
+static-architecture guard, dependency audit, and SBOM generation.
+
+**If Pages is ever re-enabled through the UI and offers the sample workflow
+again, decline it.**
