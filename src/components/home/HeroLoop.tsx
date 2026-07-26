@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 /** Starts playback, tolerating browsers where `play()` does not return a promise. */
 function play(element: HTMLVideoElement): void {
@@ -101,9 +101,9 @@ export function HeroLoop({
       )}
     >
       <picture>
-        <source srcSet={posterAvif} type="image/avif" />
+        <source srcSet={withBasePath(posterAvif)} type="image/avif" />
         <img
-          src={poster}
+          src={withBasePath(poster)}
           alt=""
           width={width}
           height={height}
@@ -128,7 +128,7 @@ export function HeroLoop({
           aria-hidden="true"
           tabIndex={-1}
         >
-          <source src={src} type="video/mp4" />
+          <source src={withBasePath(src)} type="video/mp4" />
         </video>
       ) : null}
     </div>

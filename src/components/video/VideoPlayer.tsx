@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import type { VideoMedia } from "@/lib/schema";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 /**
  * Single-player coordination.
@@ -188,14 +188,18 @@ export function VideoPlayer({
         }}
       >
         {media.sources.map((source) => (
-          <source key={source.src} src={source.src} type={source.type} />
+          <source
+            key={source.src}
+            src={withBasePath(source.src)}
+            type={source.type}
+          />
         ))}
         <track
           id={captionsId}
           kind="captions"
           srcLang="en"
           label="English captions"
-          src={media.captions}
+          src={withBasePath(media.captions)}
           default
         />
         {/* Rendered by browsers that cannot play any source at all. */}
@@ -213,9 +217,9 @@ export function VideoPlayer({
           className="absolute inset-0 z-10 flex size-full cursor-pointer flex-col justify-end"
         >
           <picture>
-            <source srcSet={media.posterAvif} type="image/avif" />
+            <source srcSet={withBasePath(media.posterAvif)} type="image/avif" />
             <img
-              src={media.poster}
+              src={withBasePath(media.poster)}
               alt=""
               width={media.width}
               height={media.height}

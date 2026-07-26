@@ -13,6 +13,13 @@ concurrency:
   group: github-pages
   cancel-in-progress: false
 
+env:
+  # Project Pages site: served from https://andrewibrah.github.io/YourlocalRealtor/
+  # Both must change together if the repo is renamed, moved to a user site, or
+  # given a custom domain — see handoff/MAINTENANCE_RUNBOOK.md.
+  NEXT_PUBLIC_SITE_URL: https://andrewibrah.github.io
+  NEXT_PUBLIC_BASE_PATH: /YourlocalRealtor
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,6 +55,15 @@ jobs:
 
       - name: Confirm export
         run: test -f out/index.html
+
+      - name: Confirm assets are prefixed for the Pages subpath
+        # A project Pages site 404s on every asset if basePath is not applied.
+        # Cheaper to catch here than after a deploy.
+        run: |
+          grep -q 'href="/YourlocalRealtor/_next/' out/index.html \
+            || grep -q 'src="/YourlocalRealtor/_next/' out/index.html \
+            || { echo "::error::Built assets are not prefixed with the base path"; exit 1; }
+          echo "Base path applied."
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
