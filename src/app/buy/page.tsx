@@ -137,7 +137,7 @@ export default function BuyPage() {
         />
         <ul className="mt-10 grid gap-8 lg:grid-cols-2">
           {buyerProof.map((story) => (
-            <li key={story.slug} className="flex">
+            <li key={story.slug} className="flex min-w-0">
               <ProofStoryCard story={story} className="w-full" />
             </li>
           ))}

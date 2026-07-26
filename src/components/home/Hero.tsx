@@ -1,11 +1,13 @@
 import Link from "next/link";
 
 import { PlanMyMove } from "@/components/contact/PlanMyMoveButton";
+import { InstagramGlyph } from "@/components/primitives/Icons";
 import { SourceLink, VideoFrame } from "@/components/video/VideoFrame";
 import { HeroLoop } from "./HeroLoop";
 import { proofStories } from "@/content/proof";
 import { formatPrice } from "@/lib/format";
 import { getVideo, heroLoop, videos } from "@/content/videos";
+import { instagram } from "@/lib/site-config";
 import { pad2 } from "@/lib/utils";
 
 /**
@@ -44,7 +46,7 @@ export function Hero() {
     <section id="hero" className="on-ink relative bg-ink text-paper">
       <div className="page-gutter mx-auto w-full max-w-page">
         <div className="grid gap-10 py-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16 lg:py-20">
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <p className="flex items-center gap-3 font-data text-caption tracking-[0.2em] text-signal uppercase">
               <span aria-hidden="true">00</span>
               <span aria-hidden="true" className="h-px w-8 bg-ink-rule" />
@@ -69,6 +71,25 @@ export function Hero() {
               >
                 Watch the films
               </Link>
+
+              {/*
+                Outbound link only — no embed and no script. The glyph is drawn
+                to the site's own line weight rather than dropped in as the
+                filled brand mark, so it sits beside the two primary actions
+                without outranking them. The accessible name carries the
+                destination and the new-tab behaviour; the icon is decorative.
+              */}
+              <a
+                href={instagram.url}
+                target="_blank"
+                rel="noopener noreferrer me"
+                className="inline-flex size-14 min-h-11 items-center justify-center rounded-button border border-ink-rule text-paper transition-colors duration-[--duration-fast] hover:border-signal hover:text-signal"
+              >
+                <InstagramGlyph className="size-6" />
+                <span className="sr-only">
+                  Sharif on Instagram, @{instagram.handle} (opens in a new tab)
+                </span>
+              </a>
             </div>
           </div>
 

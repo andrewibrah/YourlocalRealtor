@@ -64,7 +64,7 @@ export default function ResultsPage() {
         />
         <ul className="mt-12 grid gap-8 lg:grid-cols-3">
           {proofStories.map((story) => (
-            <li key={story.slug} className="flex">
+            <li key={story.slug} className="flex min-w-0">
               <ProofStoryCard story={story} className="w-full" headingLevel="h3" />
             </li>
           ))}

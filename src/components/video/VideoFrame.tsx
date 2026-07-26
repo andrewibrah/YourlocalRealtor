@@ -78,7 +78,13 @@ export function SourceLink({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex min-h-11 items-center gap-1.5 font-data text-caption tracking-[0.08em] uppercase",
+        /*
+         * Wraps and shrinks. As a nowrap `inline-flex` with uppercase
+         * letter-spaced text, this label measured 412px inside a 310px column
+         * at 200% text zoom and pushed the whole page into horizontal
+         * scrolling — a WCAG 1.4.4 failure caused by one link.
+         */
+        "inline-flex min-w-0 flex-wrap min-h-11 items-center gap-x-1.5 font-data text-caption tracking-[0.08em] uppercase",
         "underline underline-offset-4",
         tone === "ink"
           ? "text-action-ink hover:text-ink"

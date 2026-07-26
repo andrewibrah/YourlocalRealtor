@@ -83,13 +83,13 @@ export default function BudgetPage() {
       <Section id="film" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[20rem_1fr] lg:gap-16">
           {video ? (
-            <div className="flex flex-col gap-3 lg:max-w-sm">
+            <div className="flex min-w-0 flex-col gap-3 lg:max-w-sm">
               <VideoFrame video={video} />
               <SourceLink video={video} />
             </div>
           ) : null}
 
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <SectionHeading
               index="01"
               eyebrow="The film"

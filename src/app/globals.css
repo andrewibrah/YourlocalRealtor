@@ -185,6 +185,27 @@
     color: var(--color-ink);
   }
 
+  /*
+   * Display type is set very large. At heavy text zoom a single long word can
+   * exceed the viewport, and an unbreakable word forces the entire page into
+   * horizontal scrolling — a reflow failure. Breaking only happens when a word
+   * genuinely cannot fit, so normal rendering is unaffected.
+   */
+  h1,
+  h2,
+  h3 {
+    /*
+     * `anywhere`, not `break-word`.
+     *
+     * They look equivalent and are not: `break-word` lets a long word break
+     * visually but does NOT reduce the element's intrinsic min-content width,
+     * so a grid or flex item still sizes itself to the longest unbroken word
+     * and widens the page. `anywhere` reduces min-content too, which is what
+     * actually lets the layout reflow at large text sizes.
+     */
+    overflow-wrap: anywhere;
+  }
+
   /* Never let a media element blow out its container. */
   img,
   video {

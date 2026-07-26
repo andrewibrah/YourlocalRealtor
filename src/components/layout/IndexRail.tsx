@@ -8,6 +8,17 @@ export type RailSection = {
   id: string;
   label: string;
   /**
+   * The number shown in the rail.
+   *
+   * Carried explicitly rather than derived from array position. The rail
+   * previously rendered `index + 1`, so it counted 01…08 while the sections
+   * themselves were labelled 00…07 on screen — the hero read "00" and the rail
+   * highlighted "01", and every entry below it was off by one. Passing the
+   * section's own index makes the two read from the same source and stay in
+   * step when a section is added or removed.
+   */
+  index: string;
+  /**
    * The surface this section is painted on. The rail floats over the page, so
    * it has to invert with whatever is behind it — a single fixed colour would
    * be invisible over half the page. Because the rail is vertically centred and
@@ -98,7 +109,7 @@ export function IndexRail({ sections }: { sections: RailSection[] }) {
       )}
     >
       <ul className="flex flex-col gap-1">
-        {sections.map((section, index) => {
+        {sections.map((section) => {
           const active = section.id === activeId;
 
           return (
@@ -113,15 +124,39 @@ export function IndexRail({ sections }: { sections: RailSection[] }) {
               >
                 <span
                   className={cn(
-                    "max-w-0 overflow-hidden text-right font-data text-caption whitespace-nowrap",
+                    "max-w-0 overflow-hidden rounded-button text-right font-data text-caption whitespace-nowrap",
+                    /*
+                     * The expanded label sits over whatever the rail is
+                     * floating above — on the home page that is a bright,
+                     * moving video frame, against which plain text is
+                     * unreadable. A solid chip guarantees contrast regardless
+                     * of what is behind it. Collapsed, the padding is hidden by
+                     * `max-w-0` and `opacity-0`.
+                     */
+                    "group-hover:px-2 group-hover:py-1",
+                    "group-focus-visible:px-2 group-focus-visible:py-1",
+                    onInk ? "bg-ink" : "bg-paper",
                     "transition-all duration-[--duration-standard] ease-[--ease-enter]",
-                    "group-hover:max-w-[14rem] group-focus-visible:max-w-[14rem]",
+                    /*
+                     * Labels expand on hover and focus only — never merely
+                     * because a section is active. An always-open active label
+                     * reached ~14rem back into the content column and sat on
+                     * top of the hero video, unreadable and looking like a
+                     * defect. Active state is still carried by the bold number,
+                     * the longer yellow bar, and `aria-current`, and the label
+                     * text stays in the DOM for assistive technology whatever
+                     * its visual width.
+                     */
+                    "group-hover:max-w-[14rem] group-hover:opacity-100",
+                    "group-focus-visible:max-w-[14rem] group-focus-visible:opacity-100",
+                    "max-w-0 opacity-0",
                     active
-                      ? cn("max-w-[14rem] opacity-100", onInk ? "text-paper" : "text-ink")
-                      : cn(
-                          "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100",
-                          onInk ? "text-ink-muted" : "text-gray-600",
-                        ),
+                      ? onInk
+                        ? "text-paper"
+                        : "text-ink"
+                      : onInk
+                        ? "text-ink-muted"
+                        : "text-gray-600",
                   )}
                 >
                   {section.label}
@@ -137,7 +172,7 @@ export function IndexRail({ sections }: { sections: RailSection[] }) {
                         : "text-gray-600",
                   )}
                 >
-                  {String(index + 1).padStart(2, "0")}
+                  {section.index}
                 </span>
                 <span
                   aria-hidden="true"

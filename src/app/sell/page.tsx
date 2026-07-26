@@ -57,7 +57,7 @@ export default function SellPage() {
       {/* Questions -------------------------------------------------------------- */}
       <Section id="questions" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <SectionHeading
               index="01"
               eyebrow="Before you list"
@@ -69,7 +69,7 @@ export default function SellPage() {
 
           {sellerVideo ? (
             <div
-              className="flex flex-col gap-3 lg:sticky lg:top-32 lg:max-w-sm lg:self-start lg:justify-self-end"
+              className="flex min-w-0 flex-col gap-3 lg:sticky lg:top-32 lg:max-w-sm lg:self-start lg:justify-self-end"
             >
               <VideoFrame video={sellerVideo} />
               <SourceLink video={sellerVideo} />
@@ -122,7 +122,7 @@ export default function SellPage() {
         />
         <ul className="mt-10 grid gap-8 lg:grid-cols-2">
           {sellerProof.map((story) => (
-            <li key={story.slug} className="flex">
+            <li key={story.slug} className="flex min-w-0">
               <ProofStoryCard story={story} className="w-full" />
             </li>
           ))}

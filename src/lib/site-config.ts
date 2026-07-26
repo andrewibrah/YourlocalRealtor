@@ -137,6 +137,18 @@ export const starterMessage =
 
 export const starterSubject = "Planning a move in New York";
 
+/**
+ * Public social profile.
+ *
+ * Confirmed two ways: the supplied reels resolve to this account, and the
+ * profile itself loads. Used only as an outbound link — no embed, no script,
+ * no scraped media, per `docs/03`.
+ */
+export const instagram = {
+  handle: "sharif_yourlocalrealtor",
+  url: "https://www.instagram.com/sharif_yourlocalrealtor/",
+} as const;
+
 export const siteConfig = {
   name: "Sharif Abdelkader",
   role: "New York Real Estate",

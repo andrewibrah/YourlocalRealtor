@@ -40,7 +40,7 @@ export function ProofStoryCard({
   return (
     <article
       className={cn(
-        "flex flex-col gap-6 rounded-card border p-6 lg:p-8",
+        "flex min-w-0 flex-col gap-6 rounded-card border p-6 lg:p-8",
         tone === "ink"
           ? "border-gray-300 bg-white"
           : "border-ink-rule bg-white/[0.03]",

@@ -39,7 +39,7 @@ export default function ContactPage() {
 
       <Section id="channels" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <SectionHeading
               index="01"
               eyebrow="Channels"

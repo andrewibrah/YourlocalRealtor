@@ -80,19 +80,77 @@ test("no section is left invisible, with or without motion", async ({ page }) =>
   }
 });
 
-test("content survives 400% text zoom without horizontal page scroll", async ({
-  page,
-}) => {
+/**
+ * WCAG 2.2 SC 1.4.10 Reflow (AA).
+ *
+ * The criterion is defined by viewport width: content must reflow at 320 CSS
+ * pixels — equivalent to 400% browser zoom on a 1280px screen — without
+ * requiring two-dimensional scrolling.
+ */
+test("reflows at 320px without horizontal scrolling", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+
+  for (const route of ROUTES) {
+    await page.goto(route, { waitUntil: "load" });
+
+    const overflow = await page.evaluate(async () => {
+      // Web fonts change text metrics and reflow is asynchronous; measuring
+      // before both settle produces a figure that varies with machine load.
+      await document.fonts.ready;
+      await new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      );
+      return (
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth
+      );
+    });
+
+    expect(overflow, `${route} horizontal overflow at 320px`).toBeLessThanOrEqual(2);
+  }
+});
+
+/**
+ * WCAG 2.2 SC 1.4.4 Resize Text (AA).
+ *
+ * Text must scale to 200% without loss of content or functionality. Note that
+ * 1.4.4 does not prohibit horizontal scrolling — that is 1.4.10, covered above
+ * and measured by viewport width rather than by text-only zoom. What this
+ * checks is that nothing is clipped, collapsed, or overlapped out of reach.
+ */
+test("text scales to 200% without loss of content", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  // 400% text resize, approximated by scaling the root font size.
-  await page.addStyleTag({ content: "html { font-size: 64px !important; }" });
+  await page.goto("/", { waitUntil: "load" });
+  await page.addStyleTag({ content: "html { font-size: 32px !important; }" });
 
-  const overflow = await page.evaluate(
-    () =>
-      document.documentElement.scrollWidth - document.documentElement.clientWidth,
-  );
+  const problems = await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(resolve)),
+    );
 
-  // A small tolerance for sub-pixel rounding.
-  expect(overflow).toBeLessThanOrEqual(2);
+    const found: string[] = [];
+    for (const el of Array.from(
+      document.querySelectorAll<HTMLElement>("main h1, main h2, main h3, main p, main a"),
+    )) {
+      const style = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+      if (rect.height === 0) continue;
+
+      // Text clipped by a fixed height with hidden overflow is lost content.
+      if (
+        style.overflowY === "hidden" &&
+        el.scrollHeight > el.clientHeight + 2
+      ) {
+        found.push(`clipped: ${el.tagName} ${el.textContent?.slice(0, 40)}`);
+      }
+      // Content scrolled off the top of the document is unreachable.
+      if (rect.bottom < 0) {
+        found.push(`unreachable: ${el.tagName}`);
+      }
+    }
+    return found;
+  });
+
+  expect(problems).toEqual([]);
 });

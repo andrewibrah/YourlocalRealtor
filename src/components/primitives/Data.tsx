@@ -37,6 +37,15 @@ export function Price({
       <span
         className={cn(
           "tabular font-display leading-none",
+          /*
+           * A price is a single unbreakable token set at display scale. Under
+           * heavy text zoom it cannot shrink, so it forced its grid cell to
+           * ~1280px and pushed the whole page into horizontal scrolling.
+           * Allowing a break keeps the number fully readable and lets the page
+           * reflow — an unusual line break at 400% zoom is a far better outcome
+           * than a horizontally scrolling page.
+           */
+          "[overflow-wrap:anywhere]",
           size === "lg" ? "text-display-lg" : "text-heading-xl",
           tone === "ink" ? "text-ink" : "text-paper",
         )}
@@ -128,16 +137,16 @@ export function StarRating({
   tone?: "ink" | "paper";
 }) {
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex min-w-0 flex-wrap items-center justify-between gap-x-4 gap-y-1">
       <span
         className={cn(
-          "text-caption",
+          "min-w-0 text-caption",
           tone === "ink" ? "text-gray-600" : "text-ink-muted",
         )}
       >
         {label}
       </span>
-      <span className="flex items-center gap-1.5">
+      <span className="flex shrink-0 items-center gap-1.5">
         <span aria-hidden="true" className="flex gap-0.5">
           {Array.from({ length: outOf }, (_, i) => (
             <span
@@ -177,8 +186,16 @@ const VERIFICATION_COPY: Record<Exclude<Verification, "verified">, string> = {
     "Awaiting the licensed master file. Topic is confirmed by the content owner; exact wording, length, and any property detail are not yet verified.",
   "public-index-only":
     "Confirmed from the published post title or caption only. The media itself has not been verified against a master file.",
+  /*
+   * Covers two sources that share the same status: a client review transcribed
+   * from a supplied screenshot, and a film transcript generated from the
+   * master's own audio. Both are transcriptions of supplied material awaiting
+   * the same approval, so the wording names the class rather than assuming one
+   * — the earlier copy said "review screenshot" and appeared, wrongly, under
+   * every video on the site.
+   */
   "awaiting-approval":
-    "Transcribed from a client-supplied review screenshot. Awaiting written permission for marketing use and confirmation of transaction details.",
+    "Transcribed from supplied source material — a client review or the film's own audio — and awaiting written approval plus confirmation of the details.",
 };
 
 const VERIFICATION_SHORT: Record<Exclude<Verification, "verified">, string> = {

@@ -95,7 +95,7 @@ export default async function VideoPage({
             <SourceLink video={video} />
           </div>
 
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <SectionHeading
               index="01"
               eyebrow="About this film"

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PlanMyMove } from "@/components/contact/PlanMyMoveButton";
 import { Hero } from "@/components/home/Hero";
 import { IndexRail, type RailSection } from "@/components/layout/IndexRail";
+import { VerificationNote } from "@/components/primitives/Data";
 import { Section, SectionHeading } from "@/components/primitives/Typography";
 import { ProofStoryCard } from "@/components/proof/ProofStory";
 import { BuyerSeries } from "@/components/video/BuyerSeries";
@@ -14,18 +15,18 @@ import { buyerSeries, getVideo, propertyFilms } from "@/content/videos";
 import { JsonLd, absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
 const RAIL: RailSection[] = [
-  { id: "hero", label: "Opening", tone: "ink" },
-  { id: "decide", label: "Where to start", tone: "paper" },
-  { id: "budget", label: "What a budget buys", tone: "paper" },
-  { id: "first-home", label: "First home", tone: "ink" },
-  { id: "films", label: "Property films", tone: "ink" },
-  { id: "proof", label: "The receipts", tone: "paper" },
-  { id: "sell", label: "Before you list", tone: "paper" },
-  { id: "plan", label: "Plan the move", tone: "ink" },
+  { id: "hero", index: "00", label: "Opening", tone: "ink" },
+  { id: "why-me", index: "01", label: "Why the agent matters", tone: "paper" },
+  { id: "decide", index: "02", label: "Where to start", tone: "paper" },
+  { id: "first-home", index: "03", label: "First home", tone: "ink" },
+  { id: "films", index: "04", label: "Property films", tone: "ink" },
+  { id: "proof", index: "05", label: "The receipts", tone: "paper" },
+  { id: "sell", index: "06", label: "Before you list", tone: "paper" },
+  { id: "plan", index: "07", label: "Plan the move", tone: "ink" },
 ];
 
 export default function HomePage() {
-  const budgetVideo = getVideo("budget-500k");
+  const whyMeVideo = getVideo("why-me");
   const sellerVideo = getVideo("seller-questions");
 
   return (
@@ -34,10 +35,92 @@ export default function HomePage() {
 
       <Hero />
 
-      {/* 01 — Decision rail ---------------------------------------------------- */}
-      <Section id="decide" tone="paper">
+      {/* 01 — Why the agent matters ------------------------------------------ */}
+      <Section id="why-me" tone="paper">
+        <div className="grid gap-10 lg:grid-cols-[20rem_1fr] lg:items-center lg:gap-16">
+          {whyMeVideo ? (
+            <div className="flex min-w-0 flex-col gap-3">
+              <VideoFrame video={whyMeVideo} />
+              <SourceLink video={whyMeVideo} />
+            </div>
+          ) : null}
+
+          <div className="flex min-w-0 flex-col gap-8">
+            <SectionHeading
+              index="01"
+              eyebrow="Why this matters"
+              title="The agent you pick decides the outcome."
+              standfirst="Two of the homes documented on this site had already been listed by other agents and had not sold. Same houses, same asking prices, different result. That difference is the whole job."
+            />
+
+            {/*
+              Both figures come from Sharif's own account in the film above and
+              are corroborated by the clients' published reviews. Neither is a
+              general performance claim — each is tied to one named property,
+              which is what keeps it a fact rather than a boast.
+            */}
+            <dl className="grid gap-px overflow-hidden rounded-card border border-gray-300 bg-gray-300 sm:grid-cols-2">
+              {[
+                {
+                  before: "Two agents, over a year, unsold",
+                  after: "Over 10 offers in 30 days",
+                  detail: "Sold at 100% of list price",
+                  where: "181 Meisner Ave, Staten Island",
+                },
+                {
+                  before: "Two agents, both let go in 45 days",
+                  after: "Relisted at the same price",
+                  detail: "Sold for $960,000",
+                  where: "327 Brehaut Ave, Staten Island",
+                },
+              ].map((item) => (
+                <div key={item.where} className="flex flex-col gap-2 bg-white p-5">
+                  <dt className="font-data text-caption tracking-[0.14em] text-gray-600 uppercase">
+                    {item.before}
+                  </dt>
+                  <dd className="flex flex-col gap-1">
+                    <span className="font-display text-heading-md text-balance text-ink">
+                      {item.after}
+                    </span>
+                    <span className="text-body text-gray-600">{item.detail}</span>
+                    <span className="font-data text-caption text-action-ink">
+                      {item.where}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            {whyMeVideo ? (
+              <VerificationNote
+                verification={whyMeVideo.verification}
+                variant="block"
+              />
+            ) : null}
+
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/sell/"
+                className="inline-flex min-h-11 items-center gap-2 rounded-button bg-ink px-7 py-4 text-body-lg font-semibold text-paper transition-colors hover:bg-action-dark"
+              >
+                Get a seller plan
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link
+                href="/results/"
+                className="inline-flex min-h-11 items-center gap-2 rounded-button border border-ink/25 px-7 py-4 text-body-lg font-semibold text-ink transition-colors hover:border-ink"
+              >
+                See the receipts
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 02 — Decision rail ---------------------------------------------------- */}
+      <Section id="decide" tone="quiet">
         <SectionHeading
-          index="01"
+          index="02"
           eyebrow="Where to start"
           title="What do you need to understand first?"
           standfirst="Four entry points. Pick the one that matches the decision actually in front of you."
@@ -74,40 +157,10 @@ export default function HomePage() {
         </ul>
       </Section>
 
-      {/* 02 — What a budget buys ------------------------------------------------ */}
-      <Section id="budget" tone="quiet">
-        <div className="grid gap-10 lg:grid-cols-[20rem_1fr] lg:items-center lg:gap-16">
-          {budgetVideo ? (
-            <div className="flex flex-col gap-3 lg:max-w-sm">
-              <VideoFrame video={budgetVideo} />
-              <SourceLink video={budgetVideo} />
-            </div>
-          ) : null}
-
-          <div className="flex flex-col gap-8">
-            <SectionHeading
-              index="02"
-              eyebrow="Market decisions"
-              title="What does $500K actually buy?"
-              standfirst="Skip the generic calculator. See the kind of property, the location, and the tradeoffs a real budget produces — then work out your own range from something concrete."
-            />
-            <div>
-              <Link
-                href="/buy/budget/"
-                className="inline-flex min-h-11 items-center gap-2 rounded-button bg-ink px-7 py-4 text-body-lg font-semibold text-paper transition-colors hover:bg-action-dark"
-              >
-                Build my buying range
-                <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </Section>
-
       {/* 03 — First-time buyer sequence ----------------------------------------- */}
       <Section id="first-home" tone="ink">
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <SectionHeading
               index="03"
               eyebrow="First home"
@@ -182,7 +235,7 @@ export default function HomePage() {
 
         <ul className="mt-12 grid gap-8 lg:grid-cols-3">
           {proofStories.map((story) => (
-            <li key={story.slug} className="flex">
+            <li key={story.slug} className="flex min-w-0">
               <ProofStoryCard story={story} className="w-full" />
             </li>
           ))}
@@ -202,7 +255,7 @@ export default function HomePage() {
       {/* 06 — Seller questions ---------------------------------------------------- */}
       <Section id="sell" tone="quiet">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <SectionHeading
               index="06"
               eyebrow="Selling"
@@ -239,7 +292,7 @@ export default function HomePage() {
 
           {sellerVideo ? (
             <div
-              className="flex flex-col gap-3 lg:max-w-sm lg:justify-self-end"
+              className="flex min-w-0 flex-col gap-3 lg:max-w-sm lg:justify-self-end"
             >
               <VideoFrame video={sellerVideo} />
               <SourceLink video={sellerVideo} />

@@ -122,7 +122,7 @@ export default async function ResultPage({
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <div className="flex flex-col gap-10">
             {sections.map((section) => (
-              <div key={section.index} className="flex flex-col gap-3">
+              <div key={section.index} className="flex min-w-0 flex-col gap-3">
                 <p className="flex items-center gap-3 font-data text-caption tracking-[0.16em] text-gray-600 uppercase">
                   <span aria-hidden="true" className="tabular text-action-ink">
                     {pad2(section.index)}
@@ -138,7 +138,7 @@ export default async function ResultPage({
               </div>
             ))}
 
-            <div className="flex flex-col gap-3">
+            <div className="flex min-w-0 flex-col gap-3">
               <p className="flex items-center gap-3 font-data text-caption tracking-[0.16em] text-gray-600 uppercase">
                 <span aria-hidden="true" className="tabular text-action-ink">
                   04

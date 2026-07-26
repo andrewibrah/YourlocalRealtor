@@ -27,7 +27,7 @@ export function BuyerSeries({
   const done = episodes.filter((episode) => visited.includes(episode.slug)).length;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <p
           className={cn(
@@ -95,7 +95,11 @@ export function BuyerSeries({
               <Link
                 href={`/videos/${episode.slug}/`}
                 className={cn(
-                  "group flex items-start gap-5 border-t py-6 transition-colors duration-[--duration-fast]",
+                  // Every level of this row needs to be allowed to shrink:
+                  // a flex item defaults to min-width:auto and will otherwise
+                  // hold its content's intrinsic width, widening the page at
+                  // large text sizes.
+                  "group flex min-w-0 items-start gap-5 border-t py-6 transition-colors duration-[--duration-fast]",
                   tone === "ink"
                     ? "border-gray-300 hover:bg-white"
                     : "border-ink-rule hover:bg-white/[0.04]",
@@ -114,7 +118,7 @@ export function BuyerSeries({
                   {pad2(episode.episode ?? 0)}
                 </span>
 
-                <span className="flex min-w-0 flex-col gap-1">
+                <span className="flex min-w-0 flex-1 flex-col gap-1">
                   <span
                     className={cn(
                       "font-display text-heading-md text-balance transition-colors",

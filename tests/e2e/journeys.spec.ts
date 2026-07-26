@@ -216,16 +216,10 @@ test("deep links resolve and the 404 page is useful", async ({ page }) => {
     "Staten Island",
   );
 
-  /*
-   * Requested directly rather than by visiting a missing path.
-   *
-   * GitHub Pages serves `404.html` for unmatched requests, but the local
-   * static server used in these runs answers with its own built-in error page
-   * instead. Asserting on the artifact Pages will actually serve keeps this
-   * test about the product rather than about the harness. That Pages uses this
-   * file is verified separately at deploy time.
-   */
-  await page.goto("/404.html");
+  // A genuinely unmatched path. The test server mirrors GitHub Pages and
+  // serves 404.html with a 404 status, so this exercises the real behaviour.
+  const missing = await page.goto("/does-not-exist/");
+  expect(missing?.status()).toBe(404);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "That page is not here",
   );

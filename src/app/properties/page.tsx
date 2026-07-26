@@ -65,7 +65,7 @@ export default function PropertiesPage() {
                 href={`/properties/${property.slug}/`}
                 className="group grid gap-4 p-6 transition-colors duration-[--duration-fast] hover:bg-gray-100 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10 lg:p-8"
               >
-                <div className="flex flex-col gap-3">
+                <div className="flex min-w-0 flex-col gap-3">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge tone={property.status === "sold" ? "sold" : "neutral"}>
                       {PROPERTY_STATUS_LABELS[property.status]}

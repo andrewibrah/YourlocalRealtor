@@ -21,7 +21,13 @@ export function IndexLabel({
   return (
     <p
       className={cn(
-        "flex items-center gap-3 font-data text-caption font-medium tracking-[0.18em] uppercase",
+        /*
+         * Wraps. This is a flex row of index, rule, and label, and at heavy
+         * text zoom the uppercase letter-spaced label alone exceeded the
+         * viewport — an unwrappable row forced the whole section wider than the
+         * page. `min-w-0` lets it shrink, `flex-wrap` lets it break.
+         */
+        "flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 font-data text-caption font-medium tracking-[0.18em] uppercase",
         tone === "ink" ? "text-gray-600" : "text-ink-muted",
         className,
       )}
@@ -67,7 +73,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={cn("flex max-w-[52rem] flex-col gap-5", className)}>
+    <div className={cn("flex min-w-0 max-w-[52rem] flex-col gap-5", className)}>
       <IndexLabel index={index} tone={tone}>
         {eyebrow}
       </IndexLabel>

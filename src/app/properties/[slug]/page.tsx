@@ -97,7 +97,7 @@ export default async function PropertyPage({
 
       <Section id="detail" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
-          <div className="flex flex-col gap-8">
+          <div className="flex min-w-0 flex-col gap-8">
             <SectionHeading
               index="01"
               eyebrow="The record"
@@ -162,7 +162,7 @@ export default async function PropertyPage({
           </div>
 
           {video ? (
-            <div className="flex flex-col gap-3 lg:sticky lg:top-32 lg:max-w-sm lg:self-start">
+            <div className="flex min-w-0 flex-col gap-3 lg:sticky lg:top-32 lg:max-w-sm lg:self-start">
               <VideoFrame video={video} />
               <SourceLink video={video} />
             </div>

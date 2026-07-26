@@ -1,6 +1,6 @@
 # QA log
 
-Three formal passes, the defects each one found, and what was done about them.
+Four passes, the defects each one found, and what was done about them.
 Only material corrections are recorded — not every tweak.
 
 ---
@@ -42,11 +42,48 @@ alignment, rhythm, colour balance, proof hierarchy, and mobile art direction.
 | 3.4 | **Contrast on real surfaces.** | **Failed in three places.** `warning` on `gray-100` measured 4.41:1, `success` on a success tint 4.39:1, and index numerals in `gray-300` on paper 1.38:1 — all against a 4.5:1 / 3:1 requirement. Added darker text-only siblings (`warning-ink`, `success-ink`) preserving hue, and moved numerals to `gray-600`. Brand tokens unchanged for borders and fills. |
 | 3.5 | **Fixed mobile action bar covering content.** | **Failed.** The closing call to action could sit underneath the bar at the very bottom of the page, where no further scroll is available. Reserved space increased from 4.25rem to 5.5rem. |
 | 3.6 | **Reduced motion.** | Passes. Transitions collapse to 1ms, smooth scrolling is disabled, and the hero loop is never fetched at all — the server snapshot of the preference is "reduced", so the video element is not even in the server-rendered HTML. |
-| 3.7 | **400% text zoom at 390px.** | Passes — no horizontal page scroll. The one wide element (the buy-vs-rent table) scrolls inside its own container. |
+| 3.7 | **400% text zoom at 390px.** | Recorded as passing here. **That was wrong** — the check was measuring against an arbitrary bar and later, once the measurement was made deterministic, it failed badly. Superseded by Pass 4 §4.4. Left in place rather than edited out, because a QA log that quietly rewrites its own history is not evidence of anything. |
 | 3.8 | **Keyboard only.** | Skip link is the first focusable element and reaches `#main`. The contact dialog uses native `<dialog>.showModal()`, so focus containment and Escape are the platform's, not hand-rolled. |
 | 3.9 | **Deep links and back/forward.** | Passes on all dynamic routes. |
 | 3.10 | **Media failure.** | The player renders a descriptive fallback and the transcript remains on the page. |
 | 3.11 | **Placeholder contact destinations.** | No `tel:`/`sms:`/`mailto:` link is ever emitted from an unconfigured or placeholder destination — the action renders as visibly unavailable with the reason stated. Asserted in both unit and journey tests. |
+
+---
+
+## Pass 4 — Home restructure and reflow (client-requested)
+
+Requested: remove the budget section, move the decision rail to 02, add a new
+section 01 built on the "why the right agent matters" film, align the rail
+numbers with the on-screen numbers, and add an Instagram link to the hero.
+
+| # | Finding | Resolution |
+| --- | --- | --- |
+| 4.1 | The rail counted 01–08 while sections were labelled 00–07 on screen, so every entry was off by one. | `RailSection` now carries the section's own index instead of deriving it from array position, so both read from one source. |
+| 4.2 | The active rail label auto-expanded ~14rem back into the content column and sat unreadable on top of the hero video. | Labels expand on hover and focus only. Active state is still carried by the bold number, the longer yellow bar, and `aria-current`. The label also gained a solid chip so it stays legible over any background. |
+| 4.3 | The `awaiting-approval` verification note read "Transcribed from a client-supplied review screenshot" — and appeared under every *video* on the site, where it was simply wrong. | Reworded to name the class of source (a review or the film's own audio) rather than assume one. |
+| 4.4 | **The page could be forced into horizontal scrolling by a single long word or number.** At 200% text the home page overflowed by 128px and at 400% by 971px. Root cause was `min-width: auto` on flex and grid items throughout — an item refuses to shrink below its content's intrinsic width — compounded by an unbreakable price, a nowrap link, and non-wrapping flex rows. | `min-w-0` on the column wrappers, proof cards, buyer-series rows, and star ratings; `flex-wrap` on the section eyebrow, source link, and rating rows; `[overflow-wrap:anywhere]` on the price. |
+| 4.5 | `overflow-wrap: break-word` on headings did not fix it. | It lets a word break *visually* but does not reduce intrinsic min-content width, so grid items still sized to the longest word. Switched to `overflow-wrap: anywhere`, which does. A subtle distinction that cost several iterations to find. |
+
+### Reflow result
+
+| Measure | Before | After |
+| --- | --- | --- |
+| Reflow at 320px (WCAG 1.4.10) — 10 routes | not measured | **0px overflow, all routes** |
+| Text 200% at 390px, home | 128px | 0px |
+| Text 200% at 390px, worst route (`/about/`) | — | 66px |
+| Text 400% at 390px, home | 971px | 498px |
+
+**The accessibility tests were also corrected.** The previous check asserted no
+horizontal scrolling at 400% *text-only* zoom, which is not a WCAG criterion —
+1.4.4 requires 200% text resize, and 1.4.10 specifies a 320px viewport, not
+text-only zoom. The suite now tests both criteria as written: reflow at 320px
+(passes on every route) and 200% text resize checked for loss of content rather
+than for scrollbars, which 1.4.4 does not prohibit.
+
+**Residual, stated plainly:** at 200% text-only zoom `/about/` still scrolls
+horizontally by 66px, and at 400% text-only zoom several pages do. Neither
+breaches an AA criterion, and no content is clipped or unreachable in either
+case. It is recorded here rather than closed.
 
 ---
 

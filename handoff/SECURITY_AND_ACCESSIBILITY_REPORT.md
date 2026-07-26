@@ -44,7 +44,8 @@ no sensitive field names.
 | Dependabot | Enabled for npm and GitHub Actions |
 | SBOM | `npm run sbom` (CycloneDX) |
 | Lockfile integrity | `npm ci` in CI |
-| `npm audit` | **Not completed locally** — the registry advisory endpoint returned a malformed response in this environment. It runs in CI via `npm run audit:dependencies` and must be confirmed green there before launch. |
+| `npm audit` (production) | **Clean — 0 high, 0 critical.** Reached by pinning `postcss` and `sharp` forward with `overrides`; npm's own suggested "fix" was a downgrade from Next 16 to Next 9 and was not applied. Full record in `docs/repo-security-checklist.md`. |
+| `npm audit` (dev toolchain) | 23 high advisories remain in `eslint`, `@lhci/cli`, and the SBOM tooling. None ship — nothing from `devDependencies` reaches `out/`. Reported non-blocking by `npm run audit:dependencies:full` rather than hidden. |
 | Action pinning | **Outstanding.** Actions are on major-version tags and must be pinned to immutable commit SHAs before production. Tracked in `docs/repo-security-checklist.md`. |
 
 ### Accepted hosting limitation
@@ -72,7 +73,7 @@ Target: **WCAG 2.2 Level AA.**
 `@axe-core/playwright` against `wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`,
 across 21 routes covering every route family.
 
-**24 / 24 passing. Zero violations.**
+**25 / 25 passing. Zero violations.**
 
 The suite runs with reduced motion emulated, which measures the settled state
 and audits the stricter of the two motion modes.
@@ -81,7 +82,8 @@ Also asserted:
 
 - exactly one `h1` per page, across every route;
 - no `main section` is ever invisible, in either motion mode;
-- no horizontal page scroll at 400% text zoom on a 390px viewport.
+- reflow at 320px with no horizontal scrolling, on every route (WCAG 1.4.10);
+- text scaling to 200% with no clipped or unreachable content (WCAG 1.4.4).
 
 ### Built in
 
@@ -136,6 +138,15 @@ Stated publicly on `/accessibility/` as well:
 5. Safari keyboard navigation — the automated check is skipped on WebKit, whose
    Tab behaviour depends on an OS preference.
 6. A full manual pass against every WCAG 2.2 AA success criterion — **not done**.
+
+### Known residual
+
+At 200% *text-only* zoom on a 390px viewport, `/about/` scrolls horizontally by
+66px; at 400% text-only zoom several pages do. This breaches no AA criterion —
+1.4.4 requires 200% text resize without loss of content (nothing is clipped or
+unreachable) and 1.4.10 is measured by viewport width, which passes cleanly at
+320px on every route. It is recorded rather than closed. See `docs/qa-log.md`
+Pass 4.
 
 ---
 
